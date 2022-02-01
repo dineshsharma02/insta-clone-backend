@@ -5,8 +5,8 @@ from accounts import views
 
 router = routers.SimpleRouter()
 
-router.register('',views.AccountViewSet,basename='accounts')
+# router.register('',views.AccountViewSet,basename='accounts')
 
 urlpatterns = [ 
-    path('',include(router.urls))
+    path('register/',views.RegisterView.as_view(),name='auth_register')
 ]

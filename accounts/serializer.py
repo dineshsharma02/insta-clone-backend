@@ -1,27 +1,33 @@
-from rest_framework.authtoken.models import Token
 from rest_framework import serializers
 from django.contrib.auth.models import User
+from rest_framework.validators import UniqueValidator
+from django.contrib.auth.password_validation import validate_password
 
-
-# class UserSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = User
-#         fields = '__all__'
-    
-
-class UserLoginSerializer(serializers.Serializer):
-    username = serializers.CharField(max_length=300,required=True)
-    password = serializers.CharField(required=True,write_only=True)
-
-class AuthUserSerializer(serializers.ModelSerializer):
-    auth_token = serializers.SerializerMethodField()
+class RegistrationSerializer(serializers.ModelSerializer):
+    username = serializers.CharField(required=True,
+                    validators=[UniqueValidator(queryset=User.objects.all())])
+    password = serializers.CharField(write_only=True,required=True,validators=[validate_password])
+    password2 = serializers.CharField(write_only=True,required=True)
     class Meta:
         model = User
-        fields = ('id','email','username','first_name','last_name','is_active','is_staff')
-        read_only_fields = ('id','is_active','is_staff')
+        fields = ('username','email','password','email','first_name','last_name')
+        extra_kwargs = {
+            'first_name':{'required':True},
+            'last_name':{'required':True}
+        }
 
-    def get_auth_token(self,obj):
-        token = Token.objects.create(user=obj)
-        return token.key
+    def validate(self, attrs):
+        if attrs['password']!=attrs['password2']:
+            raise serializers.ValidationError({'password':"Both passwords didn't match."})
+        return attrs
 
-
+    def create(self,validated_data):
+        user = User.objects.create(
+            username=validated_data['username'],
+            email=validated_data['email'],
+            first_name=validated_data['first_name'],
+            last_name = validated_data['last_name']
+        )
+        user.set_password(validated_data['password'])
+        user.save()
+        return user
