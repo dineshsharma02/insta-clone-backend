@@ -2,6 +2,8 @@ from rest_framework import serializers
 from django.contrib.auth.models import User
 from rest_framework.validators import UniqueValidator
 from django.contrib.auth.password_validation import validate_password
+from rest_framework.authentication import BasicAuthentication,SessionAuthentication
+from rest_framework.permissions import AllowAny,IsAuthenticated
 
 class RegistrationSerializer(serializers.ModelSerializer):
     username = serializers.CharField(required=True,
@@ -31,3 +33,10 @@ class RegistrationSerializer(serializers.ModelSerializer):
         user.set_password(validated_data['password'])
         user.save()
         return user
+
+
+
+
+
+
+        

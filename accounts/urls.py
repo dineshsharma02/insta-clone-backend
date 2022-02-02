@@ -5,8 +5,10 @@ from accounts import views
 
 router = routers.SimpleRouter()
 
-# router.register('',views.AccountViewSet,basename='accounts')
+# router.register('login/',views.LoginView.as_view(),basename='auth_login')
 
 urlpatterns = [ 
-    path('register/',views.RegisterView.as_view(),name='auth_register')
+    path('register/',views.RegisterView.as_view(),name='auth_register'),
+    path('login/',views.LoginView.as_view(),name='auth_login')
+    # path('',include(router.urls))
 ]
