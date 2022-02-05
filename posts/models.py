@@ -16,8 +16,9 @@ from datetime import datetime
 # Create your models here.
 class Posts(models.Model):
 
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE,default="admin")
     image = models.ImageField(upload_to='media/profpics/',default=None)
+    caption = models.CharField(max_length=120,default="")
     total_likes = models.IntegerField(default=0)
     total_comments = models.IntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
