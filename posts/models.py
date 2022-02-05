@@ -16,7 +16,7 @@ from datetime import datetime
 # Create your models here.
 class Posts(models.Model):
 
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE,default="admin")
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE,default=None)
     image = models.ImageField(upload_to='media/profpics/',default=None)
     caption = models.CharField(max_length=120,default="")
     total_likes = models.IntegerField(default=0)
