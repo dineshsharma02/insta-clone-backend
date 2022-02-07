@@ -1,35 +1,33 @@
-
-from email.policy import default
-from enum import unique
 from django.db import models
 from django.contrib.auth.models import User
-from datetime import datetime
-
-# class InstaUser(models.Model):
-#     # newname = User.first_name+" "User.last_name
-#     username = models.ForeignKey(User, on_delete=models.CASCADE)
-#     name = models.CharField(max_length=60,default=User.first_name)
-    
-#     email = models.EmailField(max_length=254,default=User.email)
 
 
-# Create your models here.
-class Posts(models.Model):
-
+class Post_Item(models.Model):
+    # post_id = models.AutoField(primary_key=True)
     user_id = models.ForeignKey(User, on_delete=models.CASCADE,default=None)
     image = models.ImageField(upload_to='media/profpics/',default=None)
     caption = models.CharField(max_length=120,default="")
-    total_likes = models.IntegerField(default=0)
-    total_comments = models.IntegerField(default=0)
+    total_likes = models.IntegerField(default=10)
+    total_comments = models.IntegerField(default=10)
     created_at = models.DateTimeField(auto_now_add=True)
 
-class Post_likes(models.Model):
+class Post_like(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE,related_name='user')
-    post_id = models.ForeignKey("posts.Posts", on_delete=models.CASCADE,related_name='post_id',default=None)
+    post_id = models.ForeignKey(Post_Item, on_delete=models.CASCADE,related_name='postid',default=None)
     created_at = models.DateTimeField(auto_now_add=True)
     
     class Meta:
         unique_together = ('user_id','post_id')
+
+class Post_Comment(models.Model):
+    post_id = models.ForeignKey(Post_Item, on_delete=models.CASCADE,default=None)
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    comment = models.CharField(max_length=255)
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    # class Meta:
+    #     unique_together = ('user_id','post_id')
+
 
     
 

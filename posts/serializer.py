@@ -1,7 +1,7 @@
 
 from nbformat import read
 from rest_framework import serializers
-from .models import Posts
+from .models import Post_Item
 
 class PostSerializerImageField(serializers.ModelSerializer):
     def get_user_id(self,obj):
@@ -13,7 +13,7 @@ class PostSerializerImageField(serializers.ModelSerializer):
     total_likes = serializers.ReadOnlyField()
     total_comments = serializers.ReadOnlyField()
     class Meta:
-        model = Posts
+        model = Post_Item
         fields = "__all__"
     
     # def create(self, validated_data):

@@ -3,7 +3,7 @@ from attr import validate
 from django.shortcuts import render
 from .serializer import PostSerializerImageField
 from rest_framework import viewsets
-from .models import Posts
+from .models import Post_Item
 # from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.generics import ListCreateAPIView,ListAPIView,CreateAPIView
@@ -12,7 +12,7 @@ from posts import serializer
 from rest_framework import status
 
 class PostView(ListCreateAPIView):
-    queryset = Posts.objects.all()
+    queryset = Post_Item.objects.all()
     serializer_class = PostSerializerImageField
     permission_classes = [IsAuthenticated]
 
