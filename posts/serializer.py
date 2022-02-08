@@ -1,7 +1,7 @@
 
 from nbformat import read
 from rest_framework import serializers
-from .models import Post_Item
+from .models import Post_Item, Post_like
 
 class PostSerializerImageField(serializers.ModelSerializer):
     def get_user_id(self,obj):
@@ -20,6 +20,12 @@ class PostSerializerImageField(serializers.ModelSerializer):
     #     user_id = self.get_user_id(self,validated_data)
     #     return Posts(user_id,**validated_data)
 
+class Postlike_Serializer(serializers.ModelSerializer):
     
+    user_id = serializers.CharField(read_only=True)
+    # post_id = serializers.CharField(read_only=True)
+    
+    class Meta:
+        model = Post_like
+        fields = ['user_id','post_id']
 
-        # edi

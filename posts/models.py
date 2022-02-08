@@ -12,8 +12,8 @@ class Post_Item(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
 class Post_like(models.Model):
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE,related_name='user')
-    post_id = models.ForeignKey(Post_Item, on_delete=models.CASCADE,related_name='postid',default=None)
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE,related_name='user',blank=False)
+    post_id = models.ForeignKey(Post_Item, on_delete=models.CASCADE,related_name='postid',default=None,blank=False)
     created_at = models.DateTimeField(auto_now_add=True)
     
     class Meta:
