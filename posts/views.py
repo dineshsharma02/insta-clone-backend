@@ -8,11 +8,15 @@ from rest_framework import viewsets
 from .models import Post_Item,Post_like
 # from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from rest_framework.generics import ListCreateAPIView,RetrieveUpdateDestroyAPIView,ListAPIView
+from rest_framework.generics import ListCreateAPIView,RetrieveUpdateDestroyAPIView,ListAPIView,RetrieveDestroyAPIView
 from rest_framework.permissions import IsAuthenticated
 from posts import serializer
 from rest_framework.decorators import api_view
 from rest_framework import status
+
+
+
+############### SENDS POST INFO #############################
 
 class PostView(ListCreateAPIView):
     queryset = Post_Item.objects.all()
@@ -29,6 +33,9 @@ class PostView(ListCreateAPIView):
             serializer.save()
             return Response({'msg':'data created'},status= status.HTTP_201_CREATED)
         return Response(serializer.errors,status= status.HTTP_400_BAD_REQUEST)
+
+
+############### SHOWS ALL THE LIKES OF ALL POSTS BY ALL USER (NOT VERY USEFUL) ####################
 
 class PostLike_View(ListCreateAPIView):
     queryset = Post_like.objects.all()
@@ -48,17 +55,79 @@ class PostLike_View(ListCreateAPIView):
         return Response(serializer.errors,status= status.HTTP_400_BAD_REQUEST)
 
 
-class PostItem_Like(ListAPIView):
-    
+
+
+######### FOR INDIVIDUAL LIKES ON THE POST #################
+
+class PostItem_Like(ListCreateAPIView):
+    queryset = Post_Item.objects.all()
     serializer_class = Postlike_Serializer
     permission_classes = [IsAuthenticated]
-    def get(self, request, post_id):
+    def get(self, request, post_id=None):
         print(post_id)
-        queryset = Post_like.objects.filter(post_id=post_id)
-        serializer_class = Postlike_Serializer
-        permission_classes = [IsAuthenticated]
-        serializer = Postlike_Serializer(data = queryset)
-        return Response(data,status=status.HTTP_200_OK)
+        if (post_id):
+            queryset = Post_like.objects.filter(post_id=post_id)
+            serializer = Postlike_Serializer(queryset,many=True)
+        else:
+            queryset = Post_like.objects.all()
+            serializer = Postlike_Serializer(queryset,many=True)
+        return Response(serializer.data,status=status.HTTP_200_OK)
+
+    def create(self,request,*args,**kwargs):
+
+        #############   ISSUE ----> WHEN TRY TO ADD USER_ID WHEN IT IS IN ITS READ_ONLY STATE IT DOESN'T ADD ENTRY WITH USER_ID ###############
+
+        print("starting like")
+        data = request.data.copy().dict()
+        print(data)
+        data['user_id'] = '{user_id}'.format(user_id=request.user.pk)
+        print(data)
+        serializer = Postlike_Serializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'msg':'post liked'},status= status.HTTP_201_CREATED)
+        return Response(serializer.errors,status= status.HTTP_400_BAD_REQUEST)
+        
+        
+class PostItem_Like_Del(RetrieveDestroyAPIView):
+    queryset = Post_like.objects.all()
+    serializer_class = Postlike_Serializer
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, post_id=None,user_id=None):
+        queryset = Post_like.objects.get(post_id=post_id,user_id=user_id)
+        serializer = Postlike_Serializer(queryset)
+        return Response(serializer.data)
+
+    # def delete(self, request, post_id=None,user_id=None):
+    #     post_like = Post_like(post_id=post_id,user_id=user_id)
+    #     if post_like:
+    #         post_like.delete()
+    #         post_like.save
+    #         return Response({'msg':'post like removed'},status= status.HTTP_200_OK)
+    #     else:
+    #         return Response({'msg':'post like not found'},status= status.HTTP_404_NOT_FOUND)
+
+    def create(self,request,*args,**kwargs):
+
+        #############   ISSUE ----> WHEN TRY TO ADD USER_ID WHEN IT IS IN ITS READ_ONLY STATE IT DOESN'T ADD ENTRY WITH USER_ID ###############
+
+        print("starting like")
+        data = request.data.copy().dict()
+        print(data)
+        data['user_id'] = '{user_id}'.format(user_id=request.user.pk)
+        print(data)
+        serializer = Postlike_Serializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'msg':'post liked'},status= status.HTTP_201_CREATED)
+        return Response(serializer.errors,status= status.HTTP_400_BAD_REQUEST)
+        
+        
+
+
+    
+        
 
 
 
