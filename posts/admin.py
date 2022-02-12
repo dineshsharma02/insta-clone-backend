@@ -3,7 +3,7 @@ from .models import Post_Item,Post_like,Post_Comment
 # Register your models here.
 @admin.register(Post_Item)
 class PostAdmin(admin.ModelAdmin):
-    list_display = ['id','user_id','image','total_likes','total_comments','created_at']
+    list_display = ['id','user_id','username','image','total_likes','total_comments','created_at']
     
 @admin.register(Post_like)
 class PostLikesAdmin(admin.ModelAdmin):
