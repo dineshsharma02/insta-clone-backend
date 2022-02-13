@@ -6,7 +6,7 @@ class Post_Item(models.Model):
     # post_id = models.AutoField(primary_key=True)
     
     user_id = models.ForeignKey(User, on_delete=models.CASCADE,default=None)
-    username = models.CharField(max_length=255,default="anonuser")
+    # username = models.CharField(max_length=255,default="anonuser")
     image = models.ImageField(upload_to='media/profpics/',default=None)
     caption = models.CharField(max_length=120,default="")
     total_likes = models.IntegerField(default=10)

@@ -40,9 +40,10 @@ class Postlike_Serializer(serializers.ModelSerializer):
     
     # user_id = serializers.ReadOnlyField()
     # post_id = serializers.CharField(read_only=True)
-    
+    username = serializers.SerializerMethodField(read_only=True)
     class Meta:
         model = Post_like
-        fields = ['user_id','post_id']
+        fields = ['user_id','post_id','username']
         # read_only_fields = ['user_id']
-
+    def get_username(self,obj):
+        return str(obj.user_id)
