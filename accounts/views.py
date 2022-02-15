@@ -2,17 +2,20 @@ from rest_framework import views
 from django.shortcuts import render
 from rest_framework import viewsets
 from rest_framework import generics
+from rest_framework.generics import RetrieveAPIView,ListAPIView
 from rest_framework.authentication import BasicAuthentication,SessionAuthentication
 from rest_framework.permissions import AllowAny,IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from django.contrib.auth import authenticate
 from django.contrib.auth import login
 from django.views.decorators.csrf import csrf_exempt
-from .serializer import  RegistrationSerializer
+from .serializer import  RegistrationSerializer, Profile_Serializer
 from django.contrib.auth.models import User
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.decorators import api_view,authentication_classes,permission_classes
+from accounts.models import Profile
+
 
 # Create your views here.
 
@@ -53,3 +56,12 @@ class LoginView(views.APIView):
             'auth': str(request.auth),  
         }
         return Response(content)
+
+
+class Profile_View(RetrieveAPIView):
+    queryset = Profile.objects.all()
+    serializer_class = Profile_Serializer
+    
+class Profile_View_List(ListAPIView):
+    queryset = Profile.objects.all()
+    serializer_class = Profile_Serializer

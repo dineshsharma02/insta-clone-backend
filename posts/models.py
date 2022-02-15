@@ -1,11 +1,13 @@
 from django.db import models
 from django.contrib.auth.models import User
+from accounts.models import Profile
 
 
 class Post_Item(models.Model):
     # post_id = models.AutoField(primary_key=True)
     
     user_id = models.ForeignKey(User, on_delete=models.CASCADE,default=None)
+    # prof_pic = models.OneToOneField(Profile, on_delete=models.CASCADE)
     # username = models.CharField(max_length=255,default="anonuser")
     image = models.ImageField(upload_to='media/profpics/',default=None)
     caption = models.CharField(max_length=120,default="")

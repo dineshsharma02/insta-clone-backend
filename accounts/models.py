@@ -13,3 +13,10 @@ class UserFollower(models.Model):
 
     class Meta:
         unique_together = ('user_id','follower_id')
+
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    image = models.ImageField(default="def_prof_pic.jpg",upload_to='media/profile_photos')
+    # def __str__(self):
+    #     return f'{self.user.username}'

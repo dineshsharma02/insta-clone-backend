@@ -4,6 +4,7 @@ from rest_framework.validators import UniqueValidator
 from django.contrib.auth.password_validation import validate_password
 from rest_framework.authentication import BasicAuthentication,SessionAuthentication
 from rest_framework.permissions import AllowAny,IsAuthenticated
+from .models import Profile
 
 class RegistrationSerializer(serializers.ModelSerializer):
     username = serializers.CharField(required=True,
@@ -35,7 +36,11 @@ class RegistrationSerializer(serializers.ModelSerializer):
         return user
 
 
-
+class Profile_Serializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profile
+        fields = "__all__"
+        read_only_fields = ["__all__"]
 
 
 

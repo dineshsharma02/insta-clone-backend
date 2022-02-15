@@ -12,3 +12,4 @@ class PostLikesAdmin(admin.ModelAdmin):
 @admin.register(Post_Comment)
 class PostLikesAdmin(admin.ModelAdmin):
     list_display = ['id','user_id','post_id','created_at','comment']
+
