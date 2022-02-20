@@ -151,7 +151,7 @@ REST_FRAMEWORK = {
     ]
 }
 
-MEDIA_ROOT = 'C:/Users/sanju sharma/Desktop/insta-backend'
+MEDIA_ROOT = os.path.join(BASE_DIR, "")
 
 MEDIA_URL = '/media/'
 
