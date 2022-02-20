@@ -1,5 +1,4 @@
 
-from nbformat import read
 from rest_framework import serializers
 from .models import Post_Item, Post_like
 from django.contrib.auth.models import User

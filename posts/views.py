@@ -1,6 +1,5 @@
 
-from os import stat
-from attr import validate
+
 from django.http import QueryDict
 from django.shortcuts import render
 from .serializer import PostSerializerImageField,Postlike_Serializer
