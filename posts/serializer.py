@@ -1,6 +1,6 @@
 
 from rest_framework import serializers
-from .models import Post_Item, Post_like
+from .models import Post_Item, Post_like, Post_Comment
 from django.contrib.auth.models import User
 
 
@@ -46,3 +46,12 @@ class Postlike_Serializer(serializers.ModelSerializer):
         # read_only_fields = ['user_id']
     def get_username(self,obj):
         return str(obj.user_id)
+
+
+
+############# SERIALIZER FOR POST COMMENT #####################
+
+class Post_Comment_Serializer(serializers.ModelSerializer):
+    class Meta:
+        model = Post_Comment
+        fields = "__all__"

@@ -16,7 +16,7 @@ class UserFollower(models.Model):
 
 
 class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE,primary_key=True)
     image = models.ImageField(default="def_prof_pic.jpg",upload_to='media/profile_photos')
     # def __str__(self):
     #     return f'{self.user.username}'

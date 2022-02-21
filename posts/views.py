@@ -2,9 +2,9 @@
 
 from django.http import QueryDict
 from django.shortcuts import render
-from .serializer import PostSerializerImageField,Postlike_Serializer
+from .serializer import PostSerializerImageField,Postlike_Serializer,Post_Comment_Serializer
 from rest_framework import viewsets
-from .models import Post_Item,Post_like
+from .models import Post_Item,Post_like,Post_Comment
 # from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.generics import ListCreateAPIView,RetrieveUpdateDestroyAPIView,ListAPIView,RetrieveDestroyAPIView
@@ -125,7 +125,12 @@ class PostItem_Like_Del(RetrieveDestroyAPIView):
         
 
 
-    
+######################### SHOWS ALL COMMENTS #####################################
+
+class PostItem_Comment_View(ListAPIView):
+    queryset = Post_Comment
+    serializer_class = Post_Comment_Serializer
+    permission_classes = [IsAuthenticated]
         
 
 
