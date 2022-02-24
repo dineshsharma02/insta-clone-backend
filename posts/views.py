@@ -128,7 +128,7 @@ class PostItem_Like_Del(RetrieveDestroyAPIView):
 ######################### SHOWS ALL COMMENTS #####################################
 
 class PostItem_Comment_View(ListCreateAPIView):
-    queryset = Post_Comment
+    queryset = Post_Comment.objects.all()
     serializer_class = Post_Comment_Serializer
     permission_classes = [IsAuthenticated]
     # def create(self, request, *args, **kwargs):
