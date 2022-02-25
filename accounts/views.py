@@ -4,6 +4,7 @@ from rest_framework import viewsets
 from rest_framework import generics
 from rest_framework.generics import RetrieveAPIView,ListAPIView
 from rest_framework.authentication import BasicAuthentication,SessionAuthentication
+from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.permissions import AllowAny,IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from django.contrib.auth import authenticate
@@ -48,7 +49,9 @@ class RegisterView(generics.CreateAPIView):
 
 
 class LoginView(views.APIView):
-    authentication_classes = [BasicAuthentication,SessionAuthentication]
+    # authentication_classes = [BasicAuthentication,SessionAuthentication]
+    authentication_classes = [JWTAuthentication]
+
     permission_classes = [IsAuthenticated]
     def get(self,request,format=None):
         content = {
