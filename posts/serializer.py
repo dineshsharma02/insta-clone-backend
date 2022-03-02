@@ -56,3 +56,10 @@ class Post_Comment_Serializer(serializers.ModelSerializer):
         model = Post_Comment
         fields = "__all__"
         read_only_fields = ['user_id']
+
+
+class User_Post_Details_Serializer(serializers.ModelSerializer):
+    class Meta:
+        model = Post_Item
+        fields = "__all__"
+        read_only_fields = ["__all__"]

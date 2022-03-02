@@ -2,12 +2,12 @@
 
 from django.http import QueryDict
 from django.shortcuts import render
-from .serializer import PostSerializerImageField,Postlike_Serializer,Post_Comment_Serializer
+from .serializer import PostSerializerImageField,Postlike_Serializer,Post_Comment_Serializer,User_Post_Details_Serializer
 from rest_framework import viewsets
 from .models import Post_Item,Post_like,Post_Comment
 # from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from rest_framework.generics import ListCreateAPIView,RetrieveUpdateDestroyAPIView,ListAPIView,RetrieveDestroyAPIView
+from rest_framework.generics import ListCreateAPIView,RetrieveUpdateDestroyAPIView,ListAPIView,RetrieveDestroyAPIView,RetrieveAPIView
 from rest_framework.permissions import IsAuthenticated
 from posts import serializer
 from rest_framework.decorators import api_view
@@ -195,7 +195,26 @@ class PostItem_Comment_View(ListCreateAPIView):
 #         print(data)
 #         return Response({'data':data},status= status.HTTP_200_OK)
 
+class User_Posts_View(ListAPIView):
+    # serializer_class = User_Post_Details_Serializer
 
-
+    # def get_queryset(self):
+    #     user = self.request.user
+    #     print(user)
+    #     return Post_Item.objects.filter(user_id = int(user))
     
+    queryset = Post_Item.objects.all()
+    
+
+    def get(self, request, user_id=None):
+        # username = str(user_id)
+        if (user_id):
+            queryset = Post_Item.objects.filter(user_id=user_id)
+            serializer = User_Post_Details_Serializer(queryset,many=True)
+        else:
+            queryset = Post_Item.objects.all()
+            serializer = User_Post_Details_Serializer(queryset,many=True)
+        return Response(serializer.data,status=status.HTTP_200_OK)
+
+
 

@@ -43,5 +43,10 @@ class Profile_Serializer(serializers.ModelSerializer):
         read_only_fields = ["__all__"]
 
 
+# class User_Details_Serializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = User
+#         fields = "__all__"
+#         read_only_fields = ["__all__"]
 
         

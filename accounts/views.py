@@ -68,3 +68,7 @@ class Profile_View(RetrieveAPIView):
 class Profile_View_List(ListAPIView):
     queryset = Profile.objects.all()
     serializer_class = Profile_Serializer
+
+
+# class User_Details_Viw(RetrieveAPIView):
+#     queryset = User.objects.all()
