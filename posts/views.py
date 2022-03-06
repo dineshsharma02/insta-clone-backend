@@ -21,7 +21,7 @@ from rest_framework import status
 class PostView(ListCreateAPIView):
     queryset = Post_Item.objects.all()
     serializer_class = PostSerializerImageField
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
 
     def create(self, request, *args, **kwargs):
         data = request.data
@@ -196,31 +196,37 @@ class PostLike_View(ListCreateAPIView):
         print(data)
         return Response({'data':data},status= status.HTTP_200_OK)
 
-class User_Posts_View(ListAPIView):
-    # serializer_class = User_Post_Details_Serializer
+# class User_Posts_View(ListAPIView):
+#     # serializer_class = User_Post_Details_Serializer
 
-    # def get_queryset(self):
-    #     user = self.request.user
-    #     print(user)
-    #     return Post_Item.objects.filter(user_id = int(user))
+#     # def get_queryset(self):
+#     #     user = self.request.user
+#     #     print(user)
+#     #     return Post_Item.objects.filter(user_id = int(user))
     
-    queryset = Post_Item.objects.all()
+#     queryset = Post_Item.objects.all()
     
 
-    def get(self, request, user_id=None):
-        # username = str(user_id)
-        if (user_id):
-            queryset = Post_Item.objects.filter(user_id=user_id)
+#     def get(self, request, user_id=None):
+#         # username = str(user_id)
+#         if (user_id):
+#             queryset = Post_Item.objects.filter(user_id=user_id)
 
-            serializer = User_Post_Details_Serializer(queryset,many=True)
+#             serializer = User_Post_Details_Serializer(queryset,many=True)
             
-        else:
-            queryset = Post_Item.objects.all()
-            serializer = User_Post_Details_Serializer(queryset,many=True)
-        return Response(serializer.data,status=status.HTTP_200_OK)
+#         else:
+#             queryset = Post_Item.objects.all()
+#             serializer = User_Post_Details_Serializer(queryset,many=True)
+#         return Response(serializer.data,status=status.HTTP_200_OK)
 
 
 # class User_Posts_View(API):
 
 
+class User_Posts_View(ListAPIView):
+    queryset = Post_Item.objects.all()
+    serializer_class = User_Post_Details_Serializer
+    # permission_classes = [IsAuthenticated]
+
+    
 

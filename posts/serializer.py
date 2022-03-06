@@ -60,11 +60,13 @@ class Post_Comment_Serializer(serializers.ModelSerializer):
 
 class User_Post_Details_Serializer(serializers.ModelSerializer):
     username = serializers.SerializerMethodField(read_only=True)
+    
+    image = serializers.ImageField(required=True)
     # first_name = serializers.SerializerMethodField(read_only=True)
     class Meta:
         model = Post_Item
         fields = "__all__"
-        read_only_fields = ["__all__"]
+        # read_only_fields = ["__all__"]    
 
     def get_username(self,obj):
         return str(obj.user_id)
