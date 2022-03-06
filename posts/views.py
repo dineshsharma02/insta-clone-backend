@@ -13,6 +13,7 @@ from rest_framework.permissions import IsAuthenticated
 from posts import serializer
 from rest_framework.views import APIView
 from rest_framework import status
+from django.contrib.auth.models import User
 
 
 
@@ -223,10 +224,27 @@ class PostLike_View(ListCreateAPIView):
 # class User_Posts_View(API):
 
 
-class User_Posts_View(ListAPIView):
+class User_Posts_View(APIView):
     queryset = Post_Item.objects.all()
     serializer_class = User_Post_Details_Serializer
     # permission_classes = [IsAuthenticated]
+    def get(self, request, username=None):
+        # username = str(user_id)
+        user_id = get_user_id(username)
+        # print(user_id)
+        # username = str(username)
+        if (username):
+            queryset = Post_Item.objects.filter(user_id=user_id)
+
+            serializer = User_Post_Details_Serializer(queryset,many=True,context={"request":request})
+            
+        else:
+            queryset = Post_Item.objects.all()
+            serializer = User_Post_Details_Serializer(queryset,many=True,context={"request":request})
+        return Response(serializer.data,status=status.HTTP_200_OK)
 
     
-
+def get_user_id(username=None):
+    user_obj =  User.objects.get(username=username)
+    user_id = user_obj.id
+    return user_id
