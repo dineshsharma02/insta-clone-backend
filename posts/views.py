@@ -79,9 +79,10 @@ class PostItem_Like(ListCreateAPIView):
         #############   ISSUE ----> WHEN TRY TO ADD USER_ID WHEN IT IS IN ITS READ_ONLY STATE IT DOESN'T ADD ENTRY WITH USER_ID ###############
 
         print("starting like")
-        data = request.data.copy().dict()
-        print(data)
+        data = request.data.copy()
+        print(request.data)
         data['user_id'] = '{user_id}'.format(user_id=request.user.pk)
+        
         print(data)
         serializer = Postlike_Serializer(data=data)
         if serializer.is_valid():
