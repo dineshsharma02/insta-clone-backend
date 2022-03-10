@@ -9,7 +9,7 @@ from .models import Post_Item,Post_like,Post_Comment
 # from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.generics import ListCreateAPIView,RetrieveUpdateDestroyAPIView,ListAPIView,RetrieveDestroyAPIView,RetrieveAPIView
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated,IsAuthenticatedOrReadOnly,AllowAny
 from posts import serializer
 from rest_framework.views import APIView
 from rest_framework import status
@@ -136,7 +136,31 @@ class PostItem_Comment_View(ListCreateAPIView):
     permission_classes = [IsAuthenticated]
     # def create(self, request, *args, **kwargs):
     #     user_id = self.request.user
+    def get(self, request, post_id=None):
+        print(post_id)
+        if (post_id):
+            queryset = Post_Comment.objects.filter(post_id=post_id)
+            serializer = Post_Comment_Serializer(queryset,many=True)
+        else:
+            queryset = Post_Comment.objects.all()
+            serializer = Post_Comment_Serializer(queryset,many=True)
+        return Response(serializer.data,status=status.HTTP_200_OK)
 
+    def create(self,request,*args,**kwargs):
+
+        #############   ISSUE ----> WHEN TRY TO ADD USER_ID WHEN IT IS IN ITS READ_ONLY STATE IT DOESN'T ADD ENTRY WITH USER_ID ###############
+
+        print("starting commetn")
+        data = request.data.copy()
+        print(request.data)
+        data['user_id'] = '{user_id}'.format(user_id=request.user.pk)
+        
+        print(data)
+        serializer = Post_Comment_Serializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'msg':'commented on post'},status= status.HTTP_201_CREATED)
+        return Response(serializer.errors,status= status.HTTP_400_BAD_REQUEST)
         
 
 
