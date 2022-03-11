@@ -163,9 +163,15 @@ class PostItem_Comment_View(ListCreateAPIView):
         return Response(serializer.errors,status= status.HTTP_400_BAD_REQUEST)
         
 
-
-
-
+class IsLiked(APIView):
+    permission_classes = [IsAuthenticated]
+    def get(self,request,post_id=None):
+        data = False
+        user_id = request.user.pk
+        if Post_like.objects.filter(post_id=post_id,user_id=user_id):
+            data = True
+            return Response(data,status = status.HTTP_200_OK)
+        return Response(data,status=status.HTTP_404_NOT_FOUND)
 
 
 
