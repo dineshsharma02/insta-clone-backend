@@ -1,5 +1,6 @@
 
 
+from xml.dom import NotFoundErr
 from django.http import QueryDict
 from django.shortcuts import render
 from numpy import generic
@@ -101,14 +102,20 @@ class PostItem_Like_Del(RetrieveDestroyAPIView):
         serializer = Postlike_Serializer(queryset)
         return Response(serializer.data)
 
-    # def delete(self, request, post_id=None,user_id=None):
-    #     post_like = Post_like(post_id=post_id,user_id=user_id)
-    #     if post_like:
-    #         post_like.delete()
-    #         post_like.save
-    #         return Response({'msg':'post like removed'},status= status.HTTP_200_OK)
-    #     else:
-    #         return Response({'msg':'post like not found'},status= status.HTTP_404_NOT_FOUND)
+    def delete(self, request, post_id=None):
+        user_id = request.user.pk
+        post_like = None
+        try:
+            post_like = Post_like.objects.filter(post_id=post_id,user_id=user_id)
+        except(NotFoundErr):
+            print("Not fonud")
+        
+        
+        if post_like:
+            post_like.delete()
+            return Response({'msg':'post like removed'},status= status.HTTP_202_ACCEPTED)
+        else:
+            return Response({'msg':'post like not found'},status= status.HTTP_404_NOT_FOUND)
 
     def create(self,request,*args,**kwargs):
 
