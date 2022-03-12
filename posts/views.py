@@ -153,15 +153,13 @@ class PostItem_Comment_View(ListCreateAPIView):
             serializer = Post_Comment_Serializer(queryset,many=True)
         return Response(serializer.data,status=status.HTTP_200_OK)
 
-    def create(self,request,*args,**kwargs):
-
-        #############   ISSUE ----> WHEN TRY TO ADD USER_ID WHEN IT IS IN ITS READ_ONLY STATE IT DOESN'T ADD ENTRY WITH USER_ID ###############
-
+    def create(self,request,post_id=None):
+        
         print("starting commetn")
         data = request.data.copy()
         print(request.data)
         data['user_id'] = '{user_id}'.format(user_id=request.user.pk)
-        
+        data['post_id'] = '{post_id}'.format(post_id=post_id)
         print(data)
         serializer = Post_Comment_Serializer(data=data)
         if serializer.is_valid():
