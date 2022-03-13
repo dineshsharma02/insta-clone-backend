@@ -10,6 +10,7 @@ urlpatterns = [
     path('delpostlike/<int:post_id>/',views.PostItem_Like_Del.as_view(),name='viewlikedpostdel'),
     path('userposts/',views.User_Posts_View.as_view(),name="userpostview"),
     path('userposts/<str:username>/',views.User_Posts_View.as_view(),name="userpost"),
-    path('isLiked/<int:post_id>/',views.IsLiked.as_view(),name="isliked")
+    path('isLiked/<int:post_id>/',views.IsLiked.as_view(),name="isliked"),
+    path("userfollowers/",views.User_Followers_View.as_view(),name="user_follower")
 
 ]

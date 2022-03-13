@@ -15,6 +15,8 @@ from posts import serializer
 from rest_framework.views import APIView
 from rest_framework import status
 from django.contrib.auth.models import User
+from accounts.models import UserFollower
+
 
 
 
@@ -179,7 +181,10 @@ class IsLiked(APIView):
         return Response(data,status=status.HTTP_404_NOT_FOUND)
 
 
-
+class User_Followers_View(ListCreateAPIView):
+    queryset = UserFollower.objects.all()
+    serializer_class = serializer.User_Follower_Serializer
+    permission_classes = [AllowAny]
 
 
 

@@ -2,6 +2,7 @@
 from rest_framework import serializers
 from .models import Post_Item, Post_like, Post_Comment
 from django.contrib.auth.models import User
+from accounts.models import UserFollower
 # from django.http.request import build
 
 
@@ -79,3 +80,9 @@ class User_Post_Details_Serializer(serializers.ModelSerializer):
 
     
         # return str(User.objects.get(id=obj.user_id).first_name)
+
+
+class User_Follower_Serializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserFollower
+        fields = "__all__"      

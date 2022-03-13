@@ -1,11 +1,11 @@
 from csv import list_dialects
 from django.contrib import admin
 from rest_framework.authtoken.models import Token
-from .models import UserFollower,Profile,CustomUser
+from .models import UserFollower,Profile
 
-@admin.register(CustomUser)
-class CustomUserAdmin(admin.ModelAdmin):
-    list_display = ['id','username','bio','profile_pic']
+# @admin.register(CustomUser)
+# class CustomUserAdmin(admin.ModelAdmin):
+#     list_display = ['id','username','bio','profile_pic']
 
 
 @admin.register(UserFollower)
