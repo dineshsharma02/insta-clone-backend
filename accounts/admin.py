@@ -11,7 +11,7 @@ from .models import UserFollower,Profile
 @admin.register(UserFollower)
 
 class UserFollowerAdmin(admin.ModelAdmin):
-    list_display = ['user_id','follower_id','created_at']
+    list_display = ['id','user_id','follower_id','created_at',"follow_status"]
 
 @admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):

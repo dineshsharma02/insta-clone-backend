@@ -121,6 +121,7 @@ from django.contrib.auth.models import (
 class UserFollower(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE,related_name='user_id')
     follower_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    follow_status = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -144,3 +145,5 @@ def create_user_profile(sender, instance, created, **kwargs):
 def save_user_profile(sender, instance, **kwargs):
 
     instance.Profile.save()
+
+

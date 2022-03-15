@@ -16,8 +16,8 @@ class PostSerializerImageField(serializers.ModelSerializer):
     username = serializers.SerializerMethodField(read_only=True)
     # user_id = serializers.ReadOnlyField()
     image = serializers.ImageField(required=True)
-    total_likes = serializers.ReadOnlyField()
-    total_comments = serializers.ReadOnlyField()
+    total_likes = serializers.IntegerField()
+    total_comments = serializers.IntegerField()
     class Meta:
         model = Post_Item
         fields = "__all__"

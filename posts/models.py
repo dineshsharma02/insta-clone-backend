@@ -11,12 +11,10 @@ class Post_Item(models.Model):
     # username = models.CharField(max_length=255,default="anonuser")
     image = models.ImageField(upload_to='media/profpics/',default=None)
     caption = models.CharField(max_length=120,default="")
-    total_likes = models.IntegerField(default=10)
-    total_comments = models.IntegerField(default=10)
     created_at = models.DateTimeField(auto_now_add=True)
 
 class Post_like(models.Model):
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE,related_name='user',blank=False)
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE,related_name='post_likes',blank=False)
     post_id = models.ForeignKey(Post_Item, on_delete=models.CASCADE,related_name='postid',default=None,blank=False)
     created_at = models.DateTimeField(auto_now_add=True)
     
@@ -24,17 +22,10 @@ class Post_like(models.Model):
         unique_together = ('user_id','post_id')
 
 class Post_Comment(models.Model):
-    post_id = models.ForeignKey(Post_Item, on_delete=models.CASCADE,default=None)
+    post_id = models.ForeignKey(Post_Item, on_delete=models.CASCADE,default=None,related_name="post_comments")
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     comment = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
-    
-    # class Meta:
-    #     unique_together = ('user_id','post_id')
-
-
-    
-
 
 # class Tags(models.Model):
 #     tagged = models.ForeignKey(User,default=None)

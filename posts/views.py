@@ -1,5 +1,5 @@
 
-
+from django.db.models import Count
 from xml.dom import NotFoundErr
 from django.http import QueryDict
 from django.shortcuts import render
@@ -26,6 +26,12 @@ class PostView(ListCreateAPIView):
     queryset = Post_Item.objects.all()
     serializer_class = PostSerializerImageField
     # permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return Post_Item.objects.annotate(
+            total_likes = Count("id"),
+            total_comments = Count("user_id")
+        )
 
     def create(self, request, *args, **kwargs):
         data = request.data
