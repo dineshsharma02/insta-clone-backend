@@ -3,7 +3,6 @@ from django.db.models import Count
 from xml.dom import NotFoundErr
 from django.http import QueryDict
 from django.shortcuts import render
-from numpy import generic
 from .serializer import PostSerializerImageField,Postlike_Serializer,Post_Comment_Serializer,User_Post_Details_Serializer
 from rest_framework import viewsets
 from .models import Post_Item,Post_like,Post_Comment
