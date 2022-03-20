@@ -10,11 +10,12 @@ from .models import Post_Item,Post_like,Post_Comment
 from rest_framework.response import Response
 from rest_framework.generics import ListCreateAPIView,RetrieveUpdateDestroyAPIView,ListAPIView,RetrieveDestroyAPIView,RetrieveAPIView
 from rest_framework.permissions import IsAuthenticated,IsAuthenticatedOrReadOnly,AllowAny
-from posts import serializer
+from posts import pagination, serializer
 from rest_framework.views import APIView
 from rest_framework import status
 from django.contrib.auth.models import User
 from accounts.models import UserFollower
+from .pagination import Post_Items_Pagination
 
 
 
@@ -25,12 +26,16 @@ class PostView(ListCreateAPIView):
     queryset = Post_Item.objects.all()
     serializer_class = PostSerializerImageField
     # permission_classes = [IsAuthenticated]
+    # pagination_class = Post_Items_Pagination
+    
 
     def get_queryset(self):
         return Post_Item.objects.annotate(
             total_likes = Count("id"),
             total_comments = Count("user_id")
         )
+    
+
 
     def create(self, request, *args, **kwargs):
         data = request.data
